@@ -3,6 +3,8 @@ package main.java.com.ayush.taskmanager.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.com.ayush.taskmanager.enums.Priority;
+import main.java.com.ayush.taskmanager.enums.TaskStatus;
 import main.java.com.ayush.taskmanager.model.Task;
 
 public class TaskRepository {
@@ -37,6 +39,26 @@ public class TaskRepository {
             }
         }
         return null;
+    }
+
+    public List<Task> getTasksByPriority(Priority priority) {
+        List<Task> filteredTasks = new ArrayList<>();
+        for (Task task : taskList) {
+            if (task.getPriority() == priority) {
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
+    }
+
+    public List<Task> getTasksByStatus(TaskStatus status){
+        List<Task> filteredTasks = new ArrayList<>();
+        for(Task task: taskList){
+            if(task.getStatus() == status){
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
     }
 
 }

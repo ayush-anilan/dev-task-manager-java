@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.ayush.taskmanager.model.Task;
+import main.java.com.ayush.taskmanager.enums.Priority;
+import main.java.com.ayush.taskmanager.enums.TaskStatus;
 import main.java.com.ayush.taskmanager.repository.TaskRepository;
 
 public class TaskService {
@@ -32,5 +34,13 @@ public class TaskService {
 
     public Task getTaskById(int taskId) {
         return taskRepository.getTaskById(taskId);
+    }
+
+    public List<Task> getTasksByPriority(Priority priority) {
+        return taskRepository.getTasksByPriority(priority);
+    }
+
+    public List<Task> getTasksByStatus(TaskStatus status) {
+        return taskRepository.getTasksByStatus(status);
     }
 }
