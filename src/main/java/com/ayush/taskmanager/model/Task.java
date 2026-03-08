@@ -14,6 +14,18 @@ public class Task {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
+    // Constructor WITHOUT status (defaults to TODO)
+    public Task(int id, String title, String description, Priority priority) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.status = TaskStatus.TODO; // Default status
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    // Constructor WITH status
     public Task(int id, String title, String description, Priority priority, TaskStatus status) {
         this.id = id;
         this.title = title;
