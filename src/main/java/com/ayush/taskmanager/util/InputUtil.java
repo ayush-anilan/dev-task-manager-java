@@ -11,14 +11,30 @@ public class InputUtil {
     
     public static void createTask(Scanner scanner, TaskService taskService) {
         int id = IdGenerator.generateId();
+
         System.out.print("Enter task title: ");
         String title = scanner.nextLine();
+
         System.out.print("Enter task description: ");
         String description = scanner.nextLine();
-        System.out.print("Enter task priority (LOW, MEDIUM, HIGH): ");
-        Priority priorityInput = Priority.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter task status (TODO, IN_PROGRESS, DONE): ");
-        TaskStatus taskInput = TaskStatus.valueOf(scanner.nextLine().toUpperCase());
+
+        Priority priorityInput;
+        TaskStatus taskInput;
+
+        try{
+            System.out.print("Enter task priority (LOW, MEDIUM, HIGH): ");
+            priorityInput = Priority.valueOf(scanner.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid priority. Defaulting to LOW.");
+            priorityInput = Priority.LOW;
+        }
+        try {
+            System.out.print("Enter task status (TODO, IN_PROGRESS, DONE): ");
+            taskInput = TaskStatus.valueOf(scanner.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid status. Defaulting to TODO.");
+            taskInput = TaskStatus.TODO;
+        }
         System.out.println("====================================");
 
         // Create and save the task using TaskService
@@ -77,6 +93,7 @@ public static void updateTask(Scanner scanner, TaskService taskService) {
         existingTask.setDescription(description);
     }
 
+    try {
     System.out.print("Enter new priority (LOW, MEDIUM, HIGH) or blank: ");
     String priorityInput = scanner.nextLine();
 
@@ -84,21 +101,30 @@ public static void updateTask(Scanner scanner, TaskService taskService) {
         Priority newPriority = Priority.valueOf(priorityInput.toUpperCase());
         existingTask.setPriority(newPriority);
     }
+    } catch (IllegalArgumentException e) {
+        System.out.println("Invalid priority. Keeping current value.");
+    }
 
+
+    try {
     System.out.print("Enter new status (TODO, IN_PROGRESS, DONE) or blank: ");
     String statusInput = scanner.nextLine();
 
-    if (!statusInput.isEmpty()) {
-        TaskStatus newStatus = TaskStatus.valueOf(statusInput.toUpperCase());
-        existingTask.setStatus(newStatus);
+        if (!statusInput.isEmpty()) {
+            TaskStatus newStatus = TaskStatus.valueOf(statusInput.toUpperCase());
+            existingTask.setStatus(newStatus);
+        }
+    } catch (IllegalArgumentException e) {
+        System.out.println("Invalid status. Keeping current value.");
     }
     System.out.println("====================================");
-
+    
     taskService.updateTask(existingTask);
-
+    
     System.out.println("Task updated successfully!");
     System.out.println("====================================");
 }
+
 
 public static void deleteTask(Scanner scanner, TaskService taskService) {
 
